@@ -16,7 +16,8 @@
     "media-queries",
     "responsive-web-design"
   ],
-  "author": "Már Örlygsson @ Hugsmiðjan ehf.",
+  "author": "Hugsmiðjan ehf. <hugsmidjan@hugsmidjan.is> (http://www.hugsmidjan.is/)",
+  "contributors": ["Már Örlygsson <mar.nospam@anomy.net> (http://mar.anomy.net/)"],
   "license": "MIT / GPL-2.0+",
   "bugs": {
     "url": "https://github.com/maranomynet/formatchange/issues"
