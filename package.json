@@ -1,0 +1,25 @@
+{
+  "name": "formatchange",
+  "version": "1.0.0",
+  "description": "Utility that monitors named CSS media-query breakpoints and triggers event callbacks when a media-format change occurs.",
+  "main": "formatchange.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:maranomynet/formatchange.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "events",
+    "media-queries",
+    "responsive-web-design"
+  ],
+  "author": "Már Örlygsson @ Hugsmiðjan ehf.",
+  "license": "MIT / GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/maranomynet/formatchange/issues"
+  },
+  "homepage": "https://github.com/maranomynet/formatchange"
+}
