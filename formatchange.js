@@ -203,11 +203,10 @@
 
 
   FormatChange.jQueryPlugin = function ($, defaultEventName) {
-      defaultEventName = defaultEventName || 'formatchange';
       var instances = {};
       $.formatChange = function (groups, config) {
           config = config || {};
-          var evName = config.eventName || defaultEventName;
+          var evName = config.eventName || defaultEventName || 'formatchange';
           if ( !instances[evName] )
           {
             var fcInstance = instances[evName] = new FormatChange(groups, config);
