@@ -42,7 +42,7 @@ So, first off, give a single name to each @media query breakpoint (format) you w
 
 ## 2: Configure and initialize FormatChange
 
-FormatChange is a constructor, but is very forgiving about being called as a normal function.
+FormatChange is a constructor, but is very understanding about being called as a normal function.
 
 ```js
 var formatMonitor = new FormatChange();
@@ -52,7 +52,7 @@ var formatMonitor = FormatChange();
 
 The constructor accepts two optional Object arguments: `formatGroups` and `options`.
 
-`formatGroups` allows you to optionally split the formats defined by your CSS into named groups – which can be convenient when handling format-change events (more on that later).
+`formatGroups` allows you to optionally split the formats defined by your CSS into named groups – which can be convenient when handling format-change events (more on that below).
 
 ```js
 var formatGroups = {
