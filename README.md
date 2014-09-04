@@ -162,7 +162,7 @@ alert( media.leftFunky );   // --> true
 
 ## 4: Subscribe to formatchange events.
 
-Whenever FormatChange detects a new 
+Whenever FormatChange detects a new `format` it runs any callbacks that have `.subscribe()`d to be notified, passing them a reference to the `formatMonitor.media` object.
 
 ```js
 formatMonitor.subscribe(myEventCallback);
@@ -178,9 +178,7 @@ function myEventCallback (media) {
     };
 ```
 
-Subscriptions are immediately called if `formatMonitor.isRunning() === true` – so no separate "initialization" is required.
-
-Callbacks receive reference to the `formatMonitor.media` object containing information about the current state.
+Each callback is immediately run upon subscription if `formatMonitor.isRunning() === true` – so no separate "initialization" is required.
 
 Subscriptions can be cancelled any time:
 
@@ -202,7 +200,7 @@ This method is called internally when a `FormatChange` instance is created – u
 
 Starting and stopping does not delete or reset the `media` object. This means that restarting (i.e. `.start()` after a `.stop()`) will not re-trigger a 'formatchange' event – unless the window size (or CSS) changed in the meantime – or if if a "hard-refresh" argument is passed (i.e. `.start(true)`).
 
-`formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless að "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
+`formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
 
 
 # jQuery plugin
