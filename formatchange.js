@@ -210,12 +210,26 @@
           if ( !instances[evName] )
           {
             var fcInstance = instances[evName] = new FormatChange(groups, config);
+            var triggered = '_$triggered';
             fcInstance.subscribe(function (media) {
                 $(win).trigger(evName, [media]);
               });
             $.event.special[evName] = {
                 add: function (handlObj) {
-                    fcInstance._on  &&  handlObj.handler.call(win, $.Event(evName), fcInstance.media);
+                    // async auto-trigger (allows the handler to .off() the handler on first run)
+                    setTimeout(function(){
+                        var handler = handlObj.handler;
+                        if ( fcInstance._on  &&  !handler[triggered] )
+                        {
+                          handler.call(win, $.Event(evName), fcInstance.media);
+                        }
+                      }, 0);
+                  },
+                handle: function( event ) {
+                    var handler = event.handleObj.handler;
+                    // mark handlers as triggered - to avoid double-triggering by the auto-trigger (see above)
+                    handler[triggered] = !0;
+                    return handler.apply( this, arguments );
                   }
               };
           }

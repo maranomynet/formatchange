@@ -227,7 +227,7 @@ $(window).on('formatchange', function (e, media) {
   });
 ```
 
-(Note: Event handlers are triggered immediately when bound – if `formatMonitor.isRunning() === true` – so no separate "initialization" is required.)
+(Note: Event handlers are auto-triggered upon binding – if `formatMonitor.isRunning() === true` – so no separate "initialization" is required. The auto-triggering occurs after a `setTimeout` of 0 ms, if the handler hasn't been triggerd manually in the meantime.)
 
 `jQuery.formatChange()` accepts the same arguments as the `FormatChange` constructor. 
 
