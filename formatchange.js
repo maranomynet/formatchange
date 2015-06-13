@@ -127,12 +127,15 @@
 
       subscribe: function (callback) {
           var self = this;
-          self.unsubscribe(callback);
-          self._callbacks.push(callback);
-          // run callbacks immediately if .start()
-          if ( self._on )
+          if ( callback )
           {
-            callback(self.media);
+            self.unsubscribe(callback);
+            self._callbacks.push(callback);
+            // run callbacks immediately if .start()
+            if ( self._on && !self._triggering )
+            {
+              callback(self.media);
+            }
           }
         },
 
@@ -191,10 +194,12 @@
             self.oldFormat = newFormat;
             self._updateFlags();
             // issue Notification
+            self._triggering = true;
             for (var i=0, callback; (callback = self._callbacks[i]); i++)
             {
               callback(media);
             }
+            self._triggering = false;
           }
         }
 
