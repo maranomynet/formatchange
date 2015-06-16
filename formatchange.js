@@ -181,11 +181,24 @@
           var elm = self._elm;
 
           var getComputedStyle = win.getComputedStyle;
-          var newFormat = (
-                  (getComputedStyle && getComputedStyle( elm, ':after' ).getPropertyValue('content'))  ||
-                  (getComputedStyle ? getComputedStyle( elm, null ).getPropertyValue('fontFamily') : elm.currentStyle.fontFamily) ||
-                  ''
-                ).replace(/['"]/g,''); // some browsers return a quoted strings.
+
+          // Here's the thing...
+          // Old Opera browsers (mainly surviving on older Android devices and possibly STB/embededs)
+          // always returns the *actual* font-family, not the value specified in the CSS.
+          // Thus we need to use `:after{ content:'foo' }
+          // However, as of Internet Explorer v. 11.0.9600.17843, :after content's style
+          // isn't immediately computed until on the next tick - always returning 'none',
+          // (Also: some much older version's of IE don't support :after for computedStyle at all)
+          // All this forces us to use font-family for IE.
+          //
+          // Future plan is to rely exclusively on font-family, as soon as Opera <13 is totally off the radar.
+          var newFormat = (getComputedStyle && getComputedStyle( elm, ':after' ).getPropertyValue('content'));
+          if ( !newFormat || newFormat === 'none' )
+          {
+            newFormat = (getComputedStyle ? getComputedStyle( elm, null ).getPropertyValue('font-family') : elm.currentStyle.fontFamily) ||
+                        '';
+          }
+          newFormat = newFormat.replace(/['"]/g,''); // some browsers return a quoted strings.
 
           if ( newFormat !== oldFormat )
           {
