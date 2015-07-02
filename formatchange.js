@@ -1,9 +1,9 @@
-/* FormatChange  -- (c) 2012-2014 Hugsmiðjan ehf.   @license MIT/GPL */
+/* FormatChange  -- (c) 2012-2015 Hugsmiðjan ehf.   @license MIT/GPL */
 
 // ----------------------------------------------------------------------------------
 // FormatChange   --  https://github.com/maranomynet/formatchange
 // ----------------------------------------------------------------------------------
-// (c) 2012-2014 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
+// (c) 2012-2015 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
 //  written by:
 //   * Már Örlygsson        -- http://mar.anomy.net
 //
@@ -163,8 +163,8 @@
           for (var grpName in formatGroups)
           {
             var grp = formatGroups[grpName];
-            var is = !!(grp&&grp[media.format]);
-            var was = !!(grp&&grp[media.lastFormat]);
+            var is = !!(grp&&grp[media.is]);
+            var was = !!(grp&&grp[media.was]);
             media['is'+grpName] = is;
             media['was'+grpName] = was;
             media['became'+grpName] = is && !was;
@@ -202,8 +202,8 @@
 
           if ( newFormat !== oldFormat )
           {
-            media.format = newFormat;
-            media.lastFormat = oldFormat;
+            media.is = media.format = newFormat;
+            media.was = media.lastFormat = oldFormat;
             self.oldFormat = newFormat;
             self._updateFlags();
             // issue Notification

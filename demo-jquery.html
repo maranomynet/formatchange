@@ -65,8 +65,8 @@
       var tOut;
 
       $(window).on('formatchange', function (e, media) {
-          $('b').html(media.format+'');
-          $('span').html(media.lastFormat+'');
+          $('b').html(media.is+'');
+          $('span').html(media.was+'');
           $('tt').html(
               (media.isSmall ?     'is Small - '     : '')+
               (media.isLarge ?     'is Large - '     : '')+

@@ -86,17 +86,17 @@ As soon as FormatChange starts monitoring the viewport (on instantiation by defa
 var media = formatMonitor.media;
 ```
 
-`media.format` – contains the name of the current media format. E.g. 'tablet', 'phone' or 'widescreen', etc.
+`media.is` – contains the name of the current media format. E.g. 'tablet', 'phone' or 'widescreen', etc.
 
-`media.lastFormat` – starts out `undefined` but once a format change is detected it contains the name of the last media format.
+`media.was` – starts out `undefined` but once a format change is detected it contains the name of the last media format.
 
-If you have defined any `formatGroups` (as per example above) you'll also be provided with a set of dynamically defined boolean flags indicating if the current `media.format` is part of that group.
+If you have defined any `formatGroups` (as per example above) you'll also be provided with a set of dynamically defined boolean flags indicating if `media.is` is part of that group.
 
 So, using the above example settings and CSS, a 768px wide viewport would result in a `media` object with these initial property values:
 
 ```js
-media.format      === 'tablet',
-media.lastFormat  === undefined,
+media.is      === 'tablet',
+media.was  === undefined,
 // for the 'Small' group:
 media.isSmall     === false,
 media.wasSmall    === false,
@@ -112,8 +112,8 @@ media.leftLarge   === false,
 Then if the user resizes the viewport width down to 360px, the `media` properties change to this:
 
 ```js
-media.format      === 'phone',
-media.lastFormat  === 'tablet',
+media.is      === 'phone',
+media.was  === 'tablet',
 // for the 'Small' group:
 media.isSmall     === true,
 media.wasSmall    === false,
@@ -129,8 +129,8 @@ media.leftLarge   === true,
 A second reszie, now to 550px wide viewport, results in this:
 
 ```js
-media.format      === 'phablet',
-media.lastFormat  === 'phone',
+media.is      === 'phablet',
+media.was  === 'phone',
 // for the 'Small' group:
 media.isSmall     === true,
 media.wasSmall    === true,
@@ -151,8 +151,8 @@ formatMonitor.formatGroups.Funky = { phone:1, tablet:1, widescreen:1 };
 formatMonitor.refresh();
 // formatMonitor.refresh(true); // to force-trigger a "formatchange" event.
 
-alert( media.format );      // --> "phablet"
-alert( media.lastFormat );  // --> "phone"
+alert( media.is );      // --> "phablet"
+alert( media.was );  // --> "phone"
 alert( media.isFunky );     // --> false
 alert( media.wasFunky );    // --> true
 alert( media.becameFunky ); // --> false
@@ -169,10 +169,10 @@ formatMonitor.subscribe(myEventCallback);
 
 function myEventCallback (media) {
       // media === formatMonitor.media
-      if ( media.format === 'phone' ) {
+      if ( media.is === 'phone' ) {
         // init mobile menu
       }
-      if ( media.lastFormat === 'tablet' ) {
+      if ( media.was === 'tablet' ) {
         // tear down tablet UI
       }
     };
@@ -218,10 +218,10 @@ var formatMonitor = $.formatChange( formatGroups, options );
 
 $(window).on('formatchange', function (e, media) {
     // media === formatMonitor.media
-    if ( media.format === 'phone' ) {
+    if ( media.is === 'phone' ) {
       // init mobile menu
     }
-    if ( media.lastFormat === 'tablet' ) {
+    if ( media.was === 'tablet' ) {
       // tear down tablet UI
     }
   });
@@ -252,10 +252,10 @@ var aspectMonitor =  $.formatChange(null, {
 
 $(window).on('aspectchange', function (e, aMedia) {
     // aMedia === aspectMonitor.media;
-    if ( aMedia.format === 'portrait' ) {
+    if ( aMedia.is === 'portrait' ) {
       // do stuff...
     }
-    else if ( aMedia.lastFormat === 'default' ) {
+    else if ( aMedia.was === 'default' ) {
       // do stuff...
     }
   });

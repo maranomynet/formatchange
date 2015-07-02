@@ -65,8 +65,8 @@
       var tOut;
 
       formatMonitor.subscribe(function (media) {
-          $('b').innerHTML = media.format + '';
-          $('span').innerHTML = media.lastFormat + '';
+          $('b').innerHTML = media.is + '';
+          $('span').innerHTML = media.was + '';
           $('tt').innerHTML =
               (media.isSmall ?     'is Small - '     : '')+
               (media.isLarge ?     'is Large - '     : '')+
