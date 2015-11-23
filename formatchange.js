@@ -264,11 +264,10 @@
   }
   else
   {
-
     win.FormatChange = FormatChange;
-    win.jQuery  &&  FormatChange.jQueryPlugin(win.jQuery);
-
   }
+  var jQuery = win.jQuery;
+  jQuery  &&  !jQuery.formatChange  &&  FormatChange.jQueryPlugin( jQuery );
 
 
 })();
