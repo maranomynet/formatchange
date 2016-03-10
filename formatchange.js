@@ -1,9 +1,9 @@
-/* FormatChange  -- (c) 2012-2015 Hugsmiðjan ehf.   @license MIT/GPL */
+/* FormatChange  -- (c) 2012-2016 Hugsmiðjan ehf.   @license MIT/GPL */
 
 // ----------------------------------------------------------------------------------
 // FormatChange   --  https://github.com/maranomynet/formatchange
 // ----------------------------------------------------------------------------------
-// (c) 2012-2015 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
+// (c) 2012-2016 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
 //  written by:
 //   * Már Örlygsson        -- http://mar.anomy.net
 //
@@ -225,9 +225,10 @@
       $.formatChange = function (groups, config) {
           config = config || {};
           var evName = config.eventName || defaultEventName || 'formatchange';
-          if ( !instances[evName] )
+          var fcInstance = instances[evName];
+          if ( !fcInstance )
           {
-            var fcInstance = instances[evName] = new FormatChange(groups, config);
+            fcInstance = instances[evName] = new FormatChange(groups, config);
             var triggered = '_$triggered';
             fcInstance.subscribe(function (media) {
                 $(win).trigger(evName, [media]);
