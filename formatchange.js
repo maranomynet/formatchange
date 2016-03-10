@@ -41,11 +41,11 @@
           else
           {
             config = config || {};
-            config.elmTagName  &&  (self.elmTagName = config.elmTagName);
-            config.elmId  &&  (self.elmId = config.elmId);
+            if ( config.elmTagName ) { self.elmTagName = config.elmTagName; }
+            if ( config.elmId ) { self.elmId = config.elmId; }
             if ( 'defer' in config ) { self.defer = config.defer; }
 
-            self.formatGroups = groups ? groups : _beget(self.formatGroups);
+            self.formatGroups = groups || _beget(self.formatGroups);
 
             self.media = {};
             self._callbacks = [];
@@ -71,7 +71,7 @@
       defer: false,
       formatGroups: {},
 
-      isRunning: function () { return this._on },
+      isRunning: function () { return this._on; },
 
       start: function (afresh) {
           var self = this;
@@ -258,9 +258,7 @@
 
   if ( typeof module === 'object'  &&  typeof module.exports === 'object' )
   {
-
     module.exports = FormatChange;
-
   }
   else
   {
