@@ -153,8 +153,12 @@
             self.oldFormat = null;
           }
           if ( self._on ) {
-            self._getFormat();
-            self._updateFlags(); // in case Group data has changed or something
+            if ( !self._getFormat() )
+            {
+              // in case Group data has changed or something
+              // even though _getFormat() returned false - indicating no format change.
+              self._updateFlags();
+            } 
           }
           return self._on;
         },
@@ -235,7 +239,8 @@
           }
           newFormat = newFormat.replace(/['"]/g,''); // some browsers return a quoted strings.
 
-          if ( newFormat !== oldFormat )
+          var changeOccurred = newFormat !== oldFormat;
+          if ( changeOccurred )
           {
             media.is = media.format = newFormat;
             media.was = media.lastFormat = oldFormat;
@@ -249,6 +254,7 @@
             }
             self._triggering = false;
           }
+          return changeOccurred;
         }
 
     };
