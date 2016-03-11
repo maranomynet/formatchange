@@ -58,7 +58,7 @@
             // }
 
             // a self-bound handler-function for window.onresize events.
-            self.check = function () { self.check(); };
+            self._check = function () { self.check(); };
 
             !self.defer  &&  self.start();
           }
@@ -115,8 +115,8 @@
             if ( !self.manual )
             {
               w3cEvents ?
-                  win.addEventListener('resize', self.check):
-                  win.attachEvent('onresize',    self.check);
+                  win.addEventListener('resize', self._check):
+                  win.attachEvent('onresize',    self._check);
             }
 
             self.refresh(afresh);
@@ -133,8 +133,8 @@
             if ( !self.manual )
             {
               w3cEvents ?
-                  self.win.removeEventListener('resize', self.check):
-                  self.win.detachEvent('onresize',       self.check);
+                  self.win.removeEventListener('resize', self._check):
+                  self.win.detachEvent('onresize',       self._check);
             }
             if ( elm._isMine )
             {
