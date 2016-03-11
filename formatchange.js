@@ -14,7 +14,6 @@
 (function(){'use strict';
 
   var win = window;
-  var doc = document;
   var w3cEvents = !!win.addEventListener;
 
   // var _extend = function (target, source) {
@@ -41,6 +40,7 @@
           else
           {
             config = config || {};
+            self.win = config.win || self.win;
             if ( config.elmTagName ) { self.elmTagName = config.elmTagName; }
             if ( config.elmId ) { self.elmId = config.elmId; }
             if ( 'defer' in config ) { self.defer = config.defer; }
@@ -69,6 +69,7 @@
       elmTagName: 'del',
       elmId: 'mediaformat',
       defer: false,
+      win: win,
       formatGroups: {},
 
       isRunning: function () { return this._on; },
@@ -80,6 +81,8 @@
           if ( !self._on )
           {
             // build and inject the hidden monitoring element
+            var win = self.win;
+            var doc = win.document;
             var elm = self._elm = doc.createElement(self.elmTagName||'del');
             var elm_style = elm.style;
             elm_style.position = 'absolute';
@@ -106,8 +109,8 @@
           if ( self._on )
           {
             w3cEvents ?
-                win.removeEventListener('resize', self._$hdl):
-                win.detachEvent('onresize',       self._$hdl);
+                self.win.removeEventListener('resize', self._$hdl):
+                self.win.detachEvent('onresize',       self._$hdl);
             elm.parentNode.removeChild(elm);
             delete self._elm;
             self._on = false;
@@ -180,7 +183,7 @@
           var oldFormat = self.oldFormat;
           var elm = self._elm;
 
-          var getComputedStyle = win.getComputedStyle;
+          var getComputedStyle = self.win.getComputedStyle;
 
           // Here's the thing...
           // Old Opera browsers (mainly surviving on older Android devices and possibly STB/embededs)
@@ -221,9 +224,14 @@
 
 
   FormatChange.jQueryPlugin = function ($, defaultEventName) {
-      var instances = {};
       $.formatChange = function (groups, config) {
           config = config || {};
+          var instanceWin = config.win || FormatChange.prototype.win || win;
+          var instancesKey = '$formatchange_jquery_instances';
+          var instances = instanceWin[instancesKey];
+          if ( !instances ) {
+            instances = instanceWin[instancesKey] = {};
+          }
           var evName = config.eventName || defaultEventName || 'formatchange';
           var fcInstance = instances[evName];
           if ( !fcInstance )
@@ -231,7 +239,7 @@
             fcInstance = instances[evName] = new FormatChange(groups, config);
             var triggered = '_$triggered';
             fcInstance.subscribe(function (media) {
-                $(win).trigger(evName, [media]);
+                $(instanceWin).trigger(evName, [media]);
               });
             $.event.special[evName] = {
                 add: function (handlObj) {
@@ -240,7 +248,7 @@
                         var handler = handlObj.handler;
                         if ( fcInstance._on  &&  !handler[triggered] )
                         {
-                          handler.call(win, $.Event(evName), fcInstance.media);
+                          handler.call(instanceWin, $.Event(evName), fcInstance.media);
                         }
                       }, 0);
                   },

@@ -66,7 +66,8 @@ The available `options` are as follows (showing default values):
 var options = {
       elmTagName: 'del',  // tagName for the generated hidden element
       elmId: 'mediaformat',  // id for the generated element
-      defer: false  // if `true` you must call .start() manually
+      defer: false,  // if `true` you must call .start() manually
+      win: window, // the `window` object/scope to monitor.
     };
 ```
 Then this:
