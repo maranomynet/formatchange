@@ -64,16 +64,25 @@ The available `options` are as follows (showing default values):
 
 ```js
 var options = {
+  
       // Optionally supply a pre-existing element to query
       elm: null,
+  
       // DOM id of the element to query. (Used if `elm` is missing)
       elmId: 'mediaformat',
+  
       // Tag-name used when auto-generating an element to query
       elmTagName: 'del',
+  
       // Set to `true` if you want to `.start()` manually
       defer: false,
+  
       // The `window` object/scope to monitor.
       win: window,
+  
+      // Set to `true` to disable `window.onrefresh` evend binding
+      // and run `.refresh()` manually
+      manual: false,
     };
 ```
 Then this:

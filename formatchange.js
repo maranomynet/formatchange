@@ -44,6 +44,7 @@
             self.elm = config.elm;
             if ( config.elmTagName ) { self.elmTagName = config.elmTagName; }
             if ( config.elmId ) { self.elmId = config.elmId; }
+            if ( 'manual' in config ) { self.manual = config.manual; }
             if ( 'defer' in config ) { self.defer = config.defer; }
 
             self.formatGroups = groups || _beget(self.formatGroups);
@@ -69,6 +70,7 @@
       // Default options and format groups.
       elmTagName: 'del',
       elmId: 'mediaformat',
+      manual: false,
       defer: false,
       win: win,
       formatGroups: {},
@@ -110,9 +112,12 @@
 
             self._on = true;
 
-            w3cEvents ?
-                win.addEventListener('resize', self._$hdl):
-                win.attachEvent('onresize',    self._$hdl);
+            if ( !self.manual )
+            {
+              w3cEvents ?
+                  win.addEventListener('resize', self._$hdl):
+                  win.attachEvent('onresize',    self._$hdl);
+            }
 
             self.refresh(afresh);
           }
@@ -125,9 +130,12 @@
 
           if ( self._on )
           {
-            w3cEvents ?
-                self.win.removeEventListener('resize', self._$hdl):
-                self.win.detachEvent('onresize',       self._$hdl);
+            if ( !self.manual )
+            {
+              w3cEvents ?
+                  self.win.removeEventListener('resize', self._$hdl):
+                  self.win.detachEvent('onresize',       self._$hdl);
+            }
             if ( elm._isMine )
             {
               elm.parentNode.removeChild(elm);
