@@ -81,7 +81,7 @@ var options = {
       win: window,
   
       // Set to `true` to disable `window.onresize` evend binding
-      // and run `.refresh()` manually
+      // and run `.check()` manually
       manual: false,
     };
 ```
@@ -215,6 +215,8 @@ This does NOT unbind any subscribed "formatchange" event callbacks – only stop
 This method is called internally when a `FormatChange` instance is created – unless the `defer` option is passed.
 
 Starting and stopping does not delete or reset the `media` object. This means that restarting (i.e. `.start()` after a `.stop()`) will not re-trigger a 'formatchange' event – unless the window size (or CSS) changed in the meantime – or if if a "hard-refresh" argument is passed (i.e. `.start(true)`).
+
+`formatMonitor.check()` quickly queries if the format has changed and triggers "formatchange" event if needed. This is the method to use with the `manual` option.
 
 `formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
 
