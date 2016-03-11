@@ -64,10 +64,16 @@ The available `options` are as follows (showing default values):
 
 ```js
 var options = {
-      elmTagName: 'del',  // tagName for the generated hidden element
-      elmId: 'mediaformat',  // id for the generated element
-      defer: false,  // if `true` you must call .start() manually
-      win: window, // the `window` object/scope to monitor.
+      // Optionally supply a pre-existing element to query
+      elm: null,
+      // DOM id of the element to query. (Used if `elm` is missing)
+      elmId: 'mediaformat',
+      // Tag-name used when auto-generating an element to query
+      elmTagName: 'del',
+      // Set to `true` if you want to `.start()` manually
+      defer: false,
+      // The `window` object/scope to monitor.
+      win: window,
     };
 ```
 Then this:

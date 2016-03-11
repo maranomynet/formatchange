@@ -41,6 +41,7 @@
           {
             config = config || {};
             self.win = config.win || self.win;
+            self.elm = config.elm;
             if ( config.elmTagName ) { self.elmTagName = config.elmTagName; }
             if ( config.elmId ) { self.elmId = config.elmId; }
             if ( 'defer' in config ) { self.defer = config.defer; }
@@ -80,21 +81,32 @@
           // Define the Format Info object if needed
           if ( !self._on )
           {
-            // build and inject the hidden monitoring element
             var win = self.win;
-            var doc = win.document;
-            var elm = self._elm = doc.createElement(self.elmTagName||'del');
-            var elm_style = elm.style;
-            elm_style.position = 'absolute';
-            elm_style.visibility =
-            elm_style.overflow = 'hidden';
-            elm_style.border =
-            elm_style.padding =
-            elm_style.margin =
-            elm_style.width =
-            elm_style.height = 0;
-            elm.id = self.elmId || 'mediaformat';
-            doc.body.appendChild( elm );
+            // Ensure elm is defined
+            if ( !self.elm )
+            {
+              var doc = win.document;
+              var id = self.elmId || 'mediaformat';
+              var elm = self.elm = doc.getElementById(id);
+
+              if ( !elm )
+              {
+                // build and inject the hidden monitoring element
+                elm = self.elm = doc.createElement(self.elmTagName||'del');
+                var elm_style = elm.style;
+                elm_style.position = 'absolute';
+                elm_style.visibility =
+                elm_style.overflow = 'hidden';
+                elm_style.border =
+                elm_style.padding =
+                elm_style.margin =
+                elm_style.width =
+                elm_style.height = 0;
+                elm.id = id;
+                elm._isMine = true;
+                doc.body.appendChild( elm );
+              }
+            }
 
             self._on = true;
 
@@ -109,15 +121,18 @@
 
       stop: function () {
           var self = this;
-          var elm = self._elm;
+          var elm = self.elm;
 
           if ( self._on )
           {
             w3cEvents ?
                 self.win.removeEventListener('resize', self._$hdl):
                 self.win.detachEvent('onresize',       self._$hdl);
-            elm.parentNode.removeChild(elm);
-            delete self._elm;
+            if ( elm._isMine )
+            {
+              elm.parentNode.removeChild(elm);
+              delete self.elm;
+            }
             self._on = false;
           }
         },
@@ -187,7 +202,7 @@
           var self = this;
           var media = self.media;
           var oldFormat = self.oldFormat;
-          var elm = self._elm;
+          var elm = self.elm;
 
           var getComputedStyle = self.win.getComputedStyle;
 
