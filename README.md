@@ -80,7 +80,7 @@ var options = {
       // The `window` object/scope to monitor.
       win: window,
   
-      // Set to `true` to disable `window.onrefresh` evend binding
+      // Set to `true` to disable `window.onresize` evend binding
       // and run `.refresh()` manually
       manual: false,
     };
@@ -206,12 +206,12 @@ formatMonitor.unsubscribe(myEventCallback);
 
 ## 4: Start, stop, refresh!
 
-`formatMonitor.isRunning()` tells you if the `window.onresize` monitoring is active or not.
+`formatMonitor.isRunning()` tells you if the `window.onresize` monitoring is active or not. If your monitor is set to `manual`, it simply tells you if it has been started.
 
 Call `formatMonitor.stop()` any time to stop monitoring.
 This does NOT unbind any subscribed "formatchange" event callbacks – only stops the onResize CSS-polling and triggering of events
 
-`formatMonitor.start()` Binds a `window.onresize` event handler to poll the CSS and trigger event callbacks.
+`formatMonitor.start()` Binds the `window.onresize` event handler to poll the CSS and trigger event callbacks.
 This method is called internally when a `FormatChange` instance is created – unless the `defer` option is passed.
 
 Starting and stopping does not delete or reset the `media` object. This means that restarting (i.e. `.start()` after a `.stop()`) will not re-trigger a 'formatchange' event – unless the window size (or CSS) changed in the meantime – or if if a "hard-refresh" argument is passed (i.e. `.start(true)`).
