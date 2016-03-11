@@ -88,6 +88,9 @@
             elm_style.position = 'absolute';
             elm_style.visibility =
             elm_style.overflow = 'hidden';
+            elm_style.border =
+            elm_style.padding =
+            elm_style.margin =
             elm_style.width =
             elm_style.height = 0;
             elm.id = self.elmId || 'mediaformat';
