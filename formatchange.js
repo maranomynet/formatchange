@@ -144,8 +144,11 @@
           {
             self.oldFormat = null;
           }
-          self._getFormat();
-          self._updateFlags(); // in case Group data has changed or something
+          if ( self._on ) {
+            self._getFormat();
+            self._updateFlags(); // in case Group data has changed or something
+          }
+          return self._on;
         },
 
 
