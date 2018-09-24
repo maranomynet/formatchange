@@ -196,6 +196,8 @@ function myEventCallback (media) {
 
 Each callback is immediately run upon subscription if `formatMonitor.isRunning() === true` – so no separate "initialization" is required.
 
+If the callback should not be run immediately, then pass `false` as a second parameter to `.subscribe()`  – like so: `formatMonitor.subscribe( myEventCallback, false )`
+
 Subscriptions can be cancelled any time:
 
 ```js

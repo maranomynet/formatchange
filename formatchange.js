@@ -154,13 +154,13 @@
         },
 
 
-      subscribe: function (callback) {
+      subscribe: function (callback, runImmediately) {
           var self = this;
           if ( callback ) {
             self.unsubscribe(callback);
             self._callbacks.push(callback);
             // run callbacks immediately if .start()
-            if ( self._on && !self._triggering ) {
+            if ( runImmediately !== false && self._on && !self._triggering ) {
               callback(self.media);
             }
           }
