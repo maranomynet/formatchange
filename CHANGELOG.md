@@ -5,6 +5,10 @@
 * ...
 
 
+## 1.6.1
+_2018-10-31_
+* Fix missing minified script
+
 ## 1.6.0
 _2018-10-31_
 * Add `formatchange/react` module exporting `withMediaProps` HOC
