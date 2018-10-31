@@ -5,6 +5,11 @@
 * ...
 
 
+## 1.6.0
+_2018-10-31_
+* Add `formatchange/react` module exporting `withMediaProps` HOC
+* Add static helper `FormatChange.makeGroups`
+
 ## 1.5.0
 _2018-09-24_
 * Add `.subscribe(callback, runImmediately);` signature

@@ -244,6 +244,21 @@
     };
 
 
+  FormatChange.makeGroups = function (mediaFormatCfg) {
+    var mediaCategories = {};
+    Object.keys(mediaFormatCfg).forEach(function (format) {
+        var categories = mediaFormatCfg[format].category;
+        if (categories) {
+            categories.split(',').forEach(function (category) {
+                category = category.trim();
+                mediaCategories[category] = mediaCategories[category] || {};
+                mediaCategories[category][format] = true;
+            });
+        }
+    });
+  };
+
+
 
   FormatChange.jQueryPlugin = function ($, defaultEventName) {
       $.formatChange = function (groups, config) {

@@ -282,4 +282,72 @@ $(window).on('aspectchange', function (e, aMedia) {
 ```
 
 
+## Helpers
 
+FormatChange comes with a few helpers.
+
+### React `withMediaProps` HOC
+
+Learn by example:
+
+```js
+import FormatChange from 'formatchange'
+import { withMediaProps } from 'formatchange/react'
+
+const myMonitor = new FormatChange()
+
+// Mapper function that returns an object with media-related
+// props to be spread on the wrapped component
+const media2Props = (media) => ({
+    isSmall: media.is === 'phone' || media.is === 'phablet',
+})
+
+// With static class-method
+class Foo extends React.Component {
+  static getPropsFromMedia(media) { return media2Props(media) }
+  /* ... */
+}
+const MonitoredFoo = withMediaProps(Foo, myMonitor)
+
+// With mapper as a third HOC parameter
+class Bar extends React.Component {/* ... */}
+const MonitoredBar = withMediaProps(Bar, myMonitor, media2Props)
+
+// With dumb default mapper `(media) => media` 
+class Baz extends React.Component {/* ... */}
+const MonitoredBaz = withMediaProps(Baz, myMonitor)
+```
+
+
+### `FormatChange.makeGroups(normalizedCfg)`
+
+This opinionated helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.
+
+This can be useful when your media-format config is stored in a .json file that is then read and interpreted by multiple sources.
+
+Learn by example:
+
+```js
+import FormatChange from 'formatchange'
+
+const mediaConfig = {
+    computer: { group: 'Large', minW:900  },
+    tablet: { group: 'Large, Handheld', minW:700, maxW:900 },
+    tablet_up: { minW:700  },
+    phone: { group: 'Small, Handheld', maxW:480 },
+    phone_tablet: { maxW:900  },
+}
+const groups = FormatChange.makeGroups( mediaConfig )
+const myMonitor = new FormatChange(groups)
+
+assert(groups.Small.phone === true)
+assert(groups.Large.phone === false)
+assert(groups.Handheld.phone === true)
+assert(groups.Large.tablet === true)
+assert(groups.Handheld.tablet === true)
+assert(groups.Large.computer === true)
+assert(groups.Handheld.computer === false)
+// Formats without `group` are ignored
+assert(groups.Large.tablet_up === undefined)
+assert(groups.Small.phone_tablet === undefined)
+```
