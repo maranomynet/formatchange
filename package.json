@@ -30,6 +30,7 @@
   "homepage": "https://github.com/maranomynet/formatchange",
   "devDependencies": {
     "rollup": "^0.66.6",
-    "rollup-plugin-buble": "^0.19.4"
+    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-uglify": "^6.0.0"
   }
 }
