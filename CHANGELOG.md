@@ -5,6 +5,10 @@
 * ...
 
 
+## 1.6.2
+_2018-10-31_
+* Fix broken `FormatChange.makeGroups`
+
 ## 1.6.1
 _2018-10-31_
 * Fix missing minified script
