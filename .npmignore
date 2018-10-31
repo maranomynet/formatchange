@@ -1,6 +1,5 @@
 src
 rollup.config.js
-*.md
 demo.html
 demo-jquery.html
 yarn.lock

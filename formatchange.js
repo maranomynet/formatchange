@@ -245,17 +245,18 @@
 
 
   FormatChange.makeGroups = function (mediaFormatCfg) {
-    var mediaCategories = {};
+    var mediaGroups = {};
     Object.keys(mediaFormatCfg).forEach(function (format) {
-        var categories = mediaFormatCfg[format].category;
-        if (categories) {
-            categories.split(',').forEach(function (category) {
-                category = category.trim();
-                mediaCategories[category] = mediaCategories[category] || {};
-                mediaCategories[category][format] = true;
-            });
-        }
+      var groups = mediaFormatCfg[format].group;
+      if (groups) {
+        groups.split(',').forEach(function (group) {
+          group = group.trim();
+          mediaGroups[group] = mediaGroups[group] || {};
+          mediaGroups[group][format] = true;
+        });
+      }
     });
+    return mediaGroups;
   };
 
 
