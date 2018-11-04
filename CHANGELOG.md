@@ -5,7 +5,7 @@
 * ...
 
 
-## 1.6.3
+## 1.6.3 / 1.6.4
 _2018-11-04_
 * Fix error when run on server/node. Export nothing/`undefined` when no `window` is found.
 * Fix hydration of server-side-rendered HTML. Make HOC only use `getPropsFromMedia` on `componentDidMount`
