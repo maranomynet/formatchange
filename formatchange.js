@@ -14,6 +14,10 @@
 (function () {
 'use strict';
 
+  if ( typeof window === 'undefined') {
+    return;
+  }
+
   var win = window;
   var w3cEvents = !!win.addEventListener;
 
