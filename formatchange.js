@@ -15,6 +15,9 @@
 'use strict';
 
   if ( typeof window === 'undefined') {
+    if ( typeof module === 'object'  &&  typeof module.exports === 'object' ) {
+      module.exports = undefined;
+    }
     return;
   }
 
