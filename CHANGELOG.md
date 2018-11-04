@@ -5,6 +5,11 @@
 * ...
 
 
+## 1.6.3
+_2018-11-04_
+* Fix error when run on server/node. Export nothing/`undefined` when no `window` is found.
+* Fix hydration of server-side-rendered HTML. Make HOC only use `getPropsFromMedia` on `componentDidMount`
+
 ## 1.6.2
 _2018-10-31_
 * Fix broken `FormatChange.makeGroups`
