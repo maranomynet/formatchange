@@ -15,10 +15,12 @@ export const withMediaProps = (TargetComponent, formatMonitor, getPropsFromMedia
             this.getStateFromMedia = (media) => {
                 this.setState( getStateFromMedia(media) );
             };
-            this.state = getStateFromMedia(formatMonitor.media);
+            // NOTE: Don't run getStateFromMedia here because it
+            // breaks the hydration of server-side-rendered HTML.
+            this.state = {};
         }
         componentDidMount() {
-            formatMonitor.subscribe(this.getStateFromMedia, false);
+            formatMonitor.subscribe(this.getStateFromMedia);
         }
         componentWillUnmount() {
             formatMonitor.unsubscribe(this.getStateFromMedia);
