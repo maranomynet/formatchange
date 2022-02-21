@@ -1,8 +1,8 @@
 # Changelog for FormatChange
 
 ## Unreleased...
-<!-- Add new lines here. Version number will be decided later -->
-* ...
+* ... <!-- Add new lines here. Version number will be decided later -->
+* feat: Add TypeScript type declarations
 
 
 ## 1.6.3 / 1.6.4
