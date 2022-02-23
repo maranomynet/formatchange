@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 1.8.0
+
+_2022-02-23_
+
 - feat: React helpers:
   - feat: Add `makeFormatMonitorHook` custom react hook builder
   - feat: Add type declarations
