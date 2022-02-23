@@ -1,21 +1,23 @@
-export type FormatMonitorMedia<
-  Group extends string | undefined = undefined,
-  GroupName extends string = Group extends string
-    ? `${"is" | "was" | "became" | "left"}${Group}`
-    : never
-> = {
-  is: string;
-  was?: string;
-} & Record<GroupName, boolean>;
+type BaseMedia = { is: string; was?: string };
+
+export type FormatMonitorMedia<Group extends string = string> =
+  string extends Group
+    ? BaseMedia
+    : BaseMedia &
+        Record<`${"is" | "was" | "became" | "left"}${Group}`, boolean>;
+
+// ---------------------------------------------------------------------------
 
 export type FormatMonitorCallback<
   T extends FormatMonitorMedia = FormatMonitorMedia
 > = (media: T) => void;
 
-export type FormatMonitorGroupConfig<Group extends string> = Record<
-  Group,
-  Record<string, boolean>
->;
+// ---------------------------------------------------------------------------
+
+export type FormatMonitorGroupConfig<Group extends string = string> =
+  string extends Group ? object : Record<Group, Record<string, boolean>>;
+
+// ---------------------------------------------------------------------------
 
 export type FormatMonitorOptions = {
   /**  Optionally supply a pre-existing element to query */
@@ -37,13 +39,16 @@ export type FormatMonitorOptions = {
   /** Set to `true` to disable `window.onresize` evend binding and run `.check()` manually */
   manual: false;
 };
-// ---------------------------------------------------------------------------
 
-export default class FormatChange<Group extends string> {
-  constructor(
-    groups?: FormatMonitorGroupConfig<Group>,
-    options?: FormatMonitorOptions
-  );
+// ===========================================================================
+
+export default class FormatChange<
+  GroupConfig extends FormatMonitorGroupConfig | object = object,
+  Group extends string = GroupConfig extends FormatMonitorGroupConfig<infer G>
+    ? G
+    : string
+> {
+  constructor(groups?: GroupConfig, options?: FormatMonitorOptions);
 
   /** The current FormatMonitorMedia object */
   media: FormatMonitorMedia<Group>;
@@ -52,7 +57,11 @@ export default class FormatChange<Group extends string> {
    * The groups object that was passed to the constructor.
    * If this property is changed you must run `.refresh()`.
    */
-  formatGroups: FormatMonitorGroupConfig<Group>;
+  formatGroups: object extends GroupConfig
+    ? object
+    : GroupConfig extends undefined
+    ? object
+    : GroupConfig;
 
   /**
    * Whenever FormatChange detects a new `format` it runs any callbacks that have `.subscribe()`d to be notified, passing them a reference to the `formatMonitor.media` object.
