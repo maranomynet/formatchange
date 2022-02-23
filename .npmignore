@@ -1,5 +1,6 @@
-src
-rollup.config.js
-demo.html
-demo-jquery.html
-yarn.lock
+/src
+/demo.html
+/demo-jquery.html
+/yarn-error.log
+/yarn.lock
+/build.js

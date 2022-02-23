@@ -1,2 +1,4 @@
 node_modules
 /react.js
+/react.d.ts
+/yarn-error.log

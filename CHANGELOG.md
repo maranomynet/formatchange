@@ -3,6 +3,10 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- feat: React helpers:
+  - feat: Add `makeFormatMonitorHook` custom react hook builder
+  - feat: Add type declarations
+  - feat: Deprecate `withMediaProps` HOC
 - fix: Bugs in Type declarations
 
 ## 1.7.0
