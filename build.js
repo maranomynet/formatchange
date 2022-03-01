@@ -1,6 +1,9 @@
 const esbuild = require("esbuild");
 const pkg = require("./package.json");
-const { dtsPlugin } = require("esbuild-plugin-d.ts");
+// const { dtsPlugin } = require("esbuild-plugin-d.ts");
+const { exec: exec_cb } = require("child_process");
+const { promisify } = require("util");
+const exec = promisify(exec_cb);
 
 // ===========================================================================
 
@@ -49,10 +52,14 @@ esbuild
   })
   .catch(exit1);
 
-esbuild
-  .build({
-    ...baseOpts,
-    entryPoints: ["./src/react.tsx"],
-    plugins: [dtsPlugin({ outDir: baseOpts.outdir })],
-  })
-  .catch(exit1);
+// esbuild
+//   .build({
+//     ...baseOpts,
+//     entryPoints: ["./src/react.tsx"],
+//     plugins: [dtsPlugin({ outDir: baseOpts.outdir })],
+//   })
+//   .catch(exit1);
+
+exec(
+  `tsc src/react.tsx --outDir ./  --esModuleInterop --declaration --jsx react`
+).catch(exit1);
