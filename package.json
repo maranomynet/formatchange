@@ -6,8 +6,8 @@
   "types": "formatchange.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn install  &&  tsc --noEmit  &&  node build.js",
-    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.js --dev\"",
+    "build": "yarn install  &&  tsc --noEmit  &&  node build.mjs",
+    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.mjs --dev\"",
     "prepublishOnly": "yarn run build"
   },
   "repository": {

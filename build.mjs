@@ -1,8 +1,12 @@
-const esbuild = require("esbuild");
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const pkg = require("./package.json");
-// const { dtsPlugin } = require("esbuild-plugin-d.ts");
-const { exec: exec_cb } = require("child_process");
-const { promisify } = require("util");
+// import * as pkg from "./package.json" assert { type: "json" };
+
+import esbuild from "esbuild";
+// import { dtsPlugin } from "esbuild-plugin-d.ts";
+import { exec as exec_cb } from "child_process";
+import { promisify } from "util";
 const exec = promisify(exec_cb);
 
 // ===========================================================================
