@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 1.8.1
+
+_2022-03-01_
+
 - fix: Publish `react` module as ES5, for backwards compatibility
 
 ## 1.8.0
