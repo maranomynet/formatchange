@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "strict": true, // Don't be daft. Always be strict.
     "noUncheckedIndexedAccess": true // Should be part of strict
   },

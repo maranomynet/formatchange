@@ -3,11 +3,12 @@
   "version": "1.8.1",
   "description": "Utility that monitors named CSS media-query breakpoints and triggers event callbacks when a media-format change occurs.",
   "main": "formatchange.js",
-  "types": "formatchange.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn install  &&  tsc --noEmit  &&  node build.mjs",
-    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.mjs --dev\"",
+    "build:ts": "tsc --project ./tsconfig.build.json",
+    "build": "yarn install  &&  tsc --noEmit  &&  yarn run build:ts",
+    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"yarn run build:ts --watch\"",
     "prepublishOnly": "yarn run build"
   },
   "repository": {
@@ -33,10 +34,9 @@
     "@types/node": "^17.0.20",
     "@types/react": "^17.0.39",
     "concurrently": "^7.0.0",
-    "esbuild": "^0.14.23",
-    "esbuild-plugin-d.ts": "^1.1.0",
     "react": "^17.0.2",
     "tslib": "^2.3.1",
     "typescript": "^4.5.5"
-  }
+  },
+  "sideEffects": ["./jquery.js"]
 }

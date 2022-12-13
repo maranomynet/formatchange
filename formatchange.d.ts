@@ -1,6 +1,6 @@
 type BaseMedia = { is: string; was?: string };
 
-export type FormatMonitorMedia<Group extends string = string> =
+export declare type FormatMonitorMedia<Group extends string = string> =
   string extends Group
     ? BaseMedia
     : BaseMedia &
@@ -8,18 +8,18 @@ export type FormatMonitorMedia<Group extends string = string> =
 
 // ---------------------------------------------------------------------------
 
-export type FormatMonitorCallback<
+export declare type FormatMonitorCallback<
   T extends FormatMonitorMedia = FormatMonitorMedia
 > = (media: T) => void;
 
 // ---------------------------------------------------------------------------
 
-export type FormatMonitorGroupConfig<Group extends string = string> =
-  string extends Group ? object : Record<Group, Record<string, boolean>>;
+export declare type FormatMonitorGroupConfig<Group extends string = string> =
+  string extends Group ? Record<never, never> : Record<Group, Record<string, boolean>>;
 
 // ---------------------------------------------------------------------------
 
-export type FormatMonitorOptions = {
+export declare type FormatMonitorOptions = {
   /**  Optionally supply a pre-existing element to query */
   elm?: HTMLElement;
   /** DOM id of the element to query. (Used if `elm` is missing)
@@ -42,8 +42,8 @@ export type FormatMonitorOptions = {
 
 // ===========================================================================
 
-export default class FormatChange<
-  GroupConfig extends FormatMonitorGroupConfig | object = object,
+export declare class FormatChange<
+  GroupConfig extends FormatMonitorGroupConfig,
   Group extends string = GroupConfig extends FormatMonitorGroupConfig<infer G>
     ? G
     : string
@@ -58,9 +58,9 @@ export default class FormatChange<
    * If this property is changed you must run `.refresh()`.
    */
   formatGroups: object extends GroupConfig
-    ? object
+    ? Record<never, never>
     : GroupConfig extends undefined
-    ? object
+    ? Record<never, never>
     : GroupConfig;
 
   /**
@@ -74,16 +74,19 @@ export default class FormatChange<
     callback: (media: FormatMonitorMedia<Group>) => void,
     runImmediately?: boolean
   ): void;
+
   /** Cancels a subscription */
   unsubscribe(callback: (media: FormatMonitorMedia<Group>) => void): void;
 
   /** Tells you if the `window.onresize` monitoring is active or not. If your monitor is set to `manual`, it simply tells you if it has been started. */
   isRunning(): boolean;
+
   /**
    * Binds the `window.onresize` event handler to poll the CSS and trigger event callbacks.
    * This method is called internally when a `FormatChange` instance is created – unless the `defer` option is passed.
    */
   start(): void;
+
   /**
    * Stop monitoring.
    * This does NOT unsubscribe any callbacks – only stops the onResize CSS-polling and triggering of events
@@ -105,15 +108,4 @@ export default class FormatChange<
    * Returns `true` if the refresh was performed (i.e. if the monitoring `isRunning()`)
    */
   refresh(hardRefresh?: boolean): boolean;
-
-  /** Esoteric helper that maps a complex mediaFormats config object, into a `FormatMonitorGroupConfig`  */
-  static makeGroups<Group extends string>(
-    groupConfig: Record<
-      string,
-      {
-        group?: Group;
-        [x: string | number]: unknown;
-      }
-    >
-  ): FormatMonitorGroupConfig<Group>;
 }

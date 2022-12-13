@@ -7,71 +7,75 @@ FormatChange makes it trivially easy to tie tailor-made scripting effects to (CS
 You can subscribe/unsubscribe to notifications (custom event firing) whenever
 it detects that a new (named) CSS @media query breakpoint has become active.
 
-FormatChange has no dependencies, but provides a nice little jQuery plugin which triggers "formatchange" events on the `window` object.
+<!-- prettier-ignore-start -->
 
-## 0: Install and inclusion
+- [HOWTO / API](#howto--api)
+  - [0: Install](#0-install)
+  - [1: Name your CSS breakpoints](#1-name-your-css-breakpoints)
+  - [2: Configure and initialize FormatChange](#2-configure-and-initialize-formatchange)
+  - [3: Getting the current media format](#3-getting-the-current-media-format)
+  - [4: Subscribe to formatchange events.](#4-subscribe-to-formatchange-events)
+  - [5: Start, stop, refresh!](#5-start-stop-refresh)
+- [Helpers](#helpers)
+  - [React `makeFormatMonitorHook`](#react-makeformatmonitorhook)
+  - [`makeGroups(normalizedCfg)` Helper](#makegroupsnormalizedcfg-helper)
+  - [jQuery Plugin](#jquery-plugin)
+  - [React `withMediaProps` HOC](#react-withmediaprops-hoc)
 
-    npm install formatchange
+<!-- prettier-ignore-end -->
 
-FormatChange is CommonJS (`require()`) friendly, using `module.exports` by default, and setting `FormatChange` as a global object only as a last resort.
+## HOWTO / API
 
-## 1: Name your CSS breakpoints
+### 0: Install
 
-FormatChange Monitors changes in a hidden Element's `:after { content:'' }` value (falling back to the hidden element's `font-family` in some browsers) as defined in your page's CSS code[\*](http://adactio.com/journal/5429/).
+```sh
+yarn add formatchange
+# or...
+npm install formatchange
+```
+
+### 1: Name your CSS breakpoints
+
+FormatChange Monitors changes in a hidden Element's `::after { content: '' }` value, as defined in your page's CSS code.
 
 So, first off, give a single name to each @media query breakpoint (format) you want your script to respond to.
 
 ```css
 @media screen {
-  #mediaformat {
-    font-family: "phone";
-  }
-  #mediaformat:after {
+  #mediaformat::after {
     content: "phone";
   }
 }
 @media screen and (min-width: 500px) {
-  #mediaformat {
-    font-family: "phablet";
-  }
-  #mediaformat:after {
+  #mediaformat::after {
     content: "phablet";
   }
 }
 @media screen and (min-width: 700px) {
-  #mediaformat {
-    font-family: "tablet";
-  }
-  #mediaformat:after {
+  #mediaformat::after {
     content: "tablet";
   }
 }
 @media screen and (min-width: 950px) {
-  #mediaformat {
-    font-family: "netbook";
-  }
-  #mediaformat:after {
+  #mediaformat::after {
     content: "netbook";
   }
 }
 @media screen and (min-width: 1350px) {
-  #mediaformat {
-    font-family: "widescreen";
-  }
-  #mediaformat:after {
+  #mediaformat::after {
     content: "widescreen";
   }
 }
 ```
 
-## 2: Configure and initialize FormatChange
+### 2: Configure and initialize FormatChange
 
 FormatChange is a constructor, but is very understanding about being called as a normal function.
 
 ```js
+import { FormatChange } from "formatchange";
+
 var formatMonitor = new FormatChange();
-// ...or...
-var formatMonitor = FormatChange();
 ```
 
 The constructor accepts two optional Object arguments: `formatGroups` and `options`.
@@ -101,7 +105,7 @@ var options = {
   // Set to `true` if you want to `.start()` manually
   defer: false,
 
-  // The `window` object/scope to monitor.
+  // A custom `window` object/scope to monitor.
   win: window,
 
   // Set to `true` to disable `window.onresize` evend binding
@@ -118,7 +122,7 @@ var formatMonitor = new FormatChange(formatGroups, options);
 
 **NOTE:** All option and formatGroups defaults can be changed via `FormatChange.prototype.*`
 
-## 3: Getting the current media format
+### 3: Getting the current media format
 
 As soon as FormatChange starts monitoring the viewport (on instantiation by default, or on `.start()` if the `defer` option is used) it writes information about the current media format into `formatMonitor.media`.
 
@@ -199,7 +203,7 @@ alert(media.becameFunky); // --> false
 alert(media.leftFunky); // --> true
 ```
 
-## 4: Subscribe to formatchange events.
+### 4: Subscribe to formatchange events.
 
 Whenever FormatChange detects a new `format` it runs any callbacks that have `.subscribe()`d to be notified, passing them a reference to the `formatMonitor.media` object.
 
@@ -227,7 +231,7 @@ Subscriptions can be cancelled any time:
 formatMonitor.unsubscribe(myEventCallback);
 ```
 
-## 4: Start, stop, refresh!
+### 5: Start, stop, refresh!
 
 `formatMonitor.isRunning()` tells you if the `window.onresize` monitoring is active or not. If your monitor is set to `manual`, it simply tells you if it has been started.
 
@@ -243,17 +247,78 @@ Starting and stopping does not delete or reset the `media` object. This means th
 
 `formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
 
-# jQuery plugin
+## Helpers
 
-If FormatChange detects the presence of `window.jQuery` it automatically runs this command:
+FormatChange comes with a few helpers.
+
+### React `makeFormatMonitorHook`
+
+A factory function that generates a react hook that is bound to a specific `FormatChange` monitor instance.
 
 ```js
-FormatChange.jQueryPlugin(window.jQuery, "formatchange");
+import { FormatChange } from "formatchange";
+import { makeFormatMonitorHook } from "formatchange/react";
+
+var formatMonitor = new FormatChange(/* groups, options */);
+export const useFormatMonitor = makeFormatMonitorHook(formatMonitor);
+
+// elsewhere off in some React component file
+
+export const MyComponent = (props) => {
+  const [isPhone, setPhoneFormat] = React.useState(false);
+  useFormatMonitor((media) => {
+    setPhoneFormat(media.is === "phone");
+  });
+
+  return <div>Phone format: {String(isPhone)}</div>;
+};
+```
+
+### `makeGroups(normalizedCfg)` Helper
+
+This opinionated helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.
+
+This can be useful when your media-format config is stored in a .json file that is then read and interpreted by multiple sources.
+
+Example use:
+
+```js
+import { makeGroups } from "formatchange/makeGroups";
+
+const mediaFormats = {
+  desktop: { minW: 900, group: "Large" },
+  tablet: { minW: 700, maxW: 900, group: ["Large", "Handheld"] },
+  phone: { maxW: 480, group: ["Small", "Handheld"] },
+  // Formats without `group` are ignored by `makeGroups`
+  tablet_up: { minW: 700 },
+  phone_tablet: { maxW: 900 },
+};
+const groupConfig = makeGroups(mediaFormats);
+console.log(groupConfig)
+/*
+  {
+    Small: { phone: true },
+    Large: { tablet: true, desktop: true },
+    Handheld: { tablet: true, phone: true },
+  }
+*/
+const myFormatMonitor = new FormatChange(groupConfig);
+```
+
+### jQuery Plugin
+
+FormatChange provides a convenient jQuery plugin.
+
+```js
+import { jQueryPlugin } from "formatchange/jquery";
+
+jQueryPlugin();
 ```
 
 This adds a `jQuery.formatChange()` utility method, that generates and returns `new FormatChange()` instances, and allows you to bind `formatchange` events handlers using jQuery's `.on` and `.off` methods. Like so:
 
 ```js
+// initialize/instantiate FormatChange
 var formatMonitor = $.formatChange(formatGroups, options);
 
 $(window).on("formatchange", function (e, media) {
@@ -274,25 +339,16 @@ $(window).on("formatchange", function (e, media) {
 In addition it accepts an `eventName` option – which in turn results in the creation of a separate `FormatChange` instance with its own hidden element, its own CSS breakpoint names and `formatGroups`, etc...
 
 ```css
-#foobar {
-  font-family: "default";
-}
-#foobar:after {
+#aspectformat::after {
   content: "default";
 }
 @media screen and (max-width: 500px) and (min-height: 800px) {
-  #foobar {
-    font-family: "portrait";
-  }
-  #foobar:after {
+  #aspectformat::after {
     content: "portrait";
   }
 }
 @media screen and (min-width: 800px) and (max-height: 500px) {
-  #foobar {
-    font-family: "landscape";
-  }
-  #foobar:after {
+  #aspectformat::after {
     content: "landscape";
   }
 }
@@ -300,7 +356,7 @@ In addition it accepts an `eventName` option – which in turn results in the cr
 
 ```js
 var aspectMonitor = $.formatChange(null, {
-  elmId: "foobar",
+  elmId: "aspectformat",
   eventName: "aspectchange",
 });
 
@@ -314,16 +370,26 @@ $(window).on("aspectchange", function (e, aMedia) {
 });
 ```
 
-## Helpers
+You can also pass custom jQuery instances and/or custom default event name to `jQueryPlugin()`:
 
-FormatChange comes with a few helpers.
+```js
+const myJQuery = jQuery.noConflict();
+
+jQueryPlugin(myJQuery, "myDefaultEventName");
+
+var formatMonitor = myJQuery.formatChange();
+
+myJQuery(window).on("myDefaultEventName", function (e, media) {
+  // ...
+});
+```
 
 ### React `withMediaProps` HOC
 
 Learn by example:
 
 ```js
-import FormatChange from "formatchange";
+import { FormatChange } from "formatchange";
 import { withMediaProps } from "formatchange/react";
 
 const myMonitor = new FormatChange();
@@ -356,35 +422,3 @@ class Baz extends React.Component {
 const MonitoredBaz = withMediaProps(Baz, myMonitor);
 ```
 
-### `FormatChange.makeGroups(normalizedCfg)`
-
-This opinionated helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.
-
-This can be useful when your media-format config is stored in a .json file that is then read and interpreted by multiple sources.
-
-Learn by example:
-
-```js
-import FormatChange from "formatchange";
-
-const mediaConfig = {
-  computer: { group: "Large", minW: 900 },
-  tablet: { group: "Large, Handheld", minW: 700, maxW: 900 },
-  tablet_up: { minW: 700 },
-  phone: { group: "Small, Handheld", maxW: 480 },
-  phone_tablet: { maxW: 900 },
-};
-const groups = FormatChange.makeGroups(mediaConfig);
-const myMonitor = new FormatChange(groups);
-
-assert(groups.Small.phone === true);
-assert(groups.Large.phone === false);
-assert(groups.Handheld.phone === true);
-assert(groups.Large.tablet === true);
-assert(groups.Handheld.tablet === true);
-assert(groups.Large.computer === true);
-assert(groups.Handheld.computer === false);
-// Formats without `group` are ignored
-assert(groups.Large.tablet_up === undefined);
-assert(groups.Small.phone_tablet === undefined);
-```

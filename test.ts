@@ -1,4 +1,4 @@
-import FormatChange from "./formatchange";
+import { FormatChange } from "./formatchange";
 import { makeFormatMonitorHook } from "./src/react";
 
 /* eslint-disable

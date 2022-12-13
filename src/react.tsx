@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import FormatChange, { FormatMonitorGroupConfig } from "../formatchange";
+import { FormatChange, FormatMonitorGroupConfig } from "../formatchange";
 
 /**
- * @deprecated Use `makeFormatMonitorHook()` instead.
+ * @deprecated Prefer `makeFormatMonitorHook()` instead.
  *
- * (Will be removed in v2.0)
+ * (May get removed in v3.0)
  */
 export const withMediaProps: (...args: any[]) => any = (
   TargetComponent,
@@ -44,6 +44,10 @@ export const withMediaProps: (...args: any[]) => any = (
 
 // ===========================================================================
 
+/**
+ * A factory function that generates a react hook that is bound
+ * to a specific `FormatChange` monitor instance.
+ */
 export const makeFormatMonitorHook =
   <G extends string, C extends FormatMonitorGroupConfig<G>>(
     formatMonitor: FormatChange<C>
