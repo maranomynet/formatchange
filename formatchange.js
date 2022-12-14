@@ -65,7 +65,7 @@ FormatChange.prototype = {
   elmId: 'mediaformat',
   manual: false,
   defer: false,
-  win: window,
+  win: typeof window !== 'undefined' ? window : undefined,
   formatGroups: {},
 
   isRunning: function () {
@@ -74,7 +74,8 @@ FormatChange.prototype = {
 
   start: function (afresh) {
     // Only define the Format Info object if needed
-    if (this._on) {
+    // Also: Don't start if window is undefined
+    if (this._on || !this.window) {
       return;
     }
     // Ensure elm is defined
