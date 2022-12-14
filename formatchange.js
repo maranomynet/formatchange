@@ -75,7 +75,7 @@ FormatChange.prototype = {
   start: function (afresh) {
     // Only define the Format Info object if needed
     // Also: Don't start if window is undefined
-    if (this._on || !this.window) {
+    if (this._on || !this.win) {
       return;
     }
     // Ensure elm is defined
