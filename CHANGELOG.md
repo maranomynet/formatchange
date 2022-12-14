@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 2.0.0
+
+_2022-12-14_
+
 - **BREAKING** feat: Remove support for ancient browsers
 - **BREAKING** feat: Stop reading media name from `font-family`, use `::after` only
 - **BREAKING** feat: Use named export for `FormatChange` class
