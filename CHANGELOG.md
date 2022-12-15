@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 2.1.0
+
+_2022-12-15_
+
 - feat: Allow passing callback/getter function to `makeFormatMonitorHook`
 - fix: Prevent error messages in `jsdom` environments
 
