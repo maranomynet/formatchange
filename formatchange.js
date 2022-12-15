@@ -18,6 +18,9 @@ var _beget = Object.create || function (prototype) {
   return new F();
 };
 
+// FYI: `jsdom` doesn't have `window.getComputedStyle`...
+var isBrowser = (window) => !!(window && window.getComputedStyle)
+
 
 var FormatChange = function (groups, config) {
   var self = this;
@@ -75,7 +78,7 @@ FormatChange.prototype = {
   start: function (afresh) {
     // Only define the Format Info object if needed
     // Also: Don't start if window is undefined
-    if (this._on || !this.win) {
+    if (this._on || !isBrowser(this.win)) {
       return;
     }
     // Ensure elm is defined
@@ -188,7 +191,6 @@ FormatChange.prototype = {
     }
     var media = this.media;
     var oldFormat = this.oldFormat;
-
     var newFormat = this.win.getComputedStyle(this.elm, '::after').content || '';
     newFormat = newFormat.replace(/['"]/g, '');
 

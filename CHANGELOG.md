@@ -3,6 +3,7 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- fix: Prevent error messages in `jsdom` environments
 
 ## 2.0.0 – 2.0.2
 
