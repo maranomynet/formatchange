@@ -3,6 +3,7 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- feat: Allow passing callback/getter function to `makeFormatMonitorHook`
 - fix: Prevent error messages in `jsdom` environments
 
 ## 2.0.0 – 2.0.2

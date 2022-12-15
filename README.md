@@ -274,6 +274,20 @@ export const MyComponent = (props) => {
 };
 ```
 
+You can also pass a getter callback which returns the `FormatChange` instance.
+This may be the preferred signature for JS libraries that want to provide side-effect free `imort`s.
+
+```js
+let _formatMonitor;
+
+export const useFormatMonitor = makeFormatMonitorHook(() => {
+  if (!_formatMonitor) {
+    _formatMonitor = new FormatChange(/* groups, options */);
+  }
+  return _formatMonitor;
+});
+```
+
 ### `makeGroups(normalizedCfg)` Helper
 
 This opinionated helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.

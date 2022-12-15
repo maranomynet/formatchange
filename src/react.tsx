@@ -50,20 +50,22 @@ export const withMediaProps: (...args: any[]) => any = (
  */
 export const makeFormatMonitorHook =
   <G extends string, C extends FormatMonitorGroupConfig<G>>(
-    formatMonitor: FormatChange<C>
+    formatMonitor: FormatChange<C> | (() => FormatChange<C>)
   ) =>
-  (callback: ((media: typeof formatMonitor["media"]) => void) | undefined) => {
+  (callback: ((media: FormatChange<C>["media"]) => void) | undefined) => {
+    const fmtMonitor =
+      typeof formatMonitor === "function" ? formatMonitor() : formatMonitor;
     const callbackRef = useRef(callback);
     callbackRef.current = callback;
 
     const hasCallback = !!callback;
     useEffect(() => {
       if (callbackRef.current) {
-        const callCallback = (media: typeof formatMonitor["media"]) =>
+        const callCallback = (media: typeof fmtMonitor["media"]) =>
           callbackRef.current && callbackRef.current(media);
-        formatMonitor.subscribe(callCallback);
+        fmtMonitor.subscribe(callCallback);
         return () => {
-          formatMonitor.unsubscribe(callCallback);
+          fmtMonitor.unsubscribe(callCallback);
         };
       }
     }, [hasCallback]);
