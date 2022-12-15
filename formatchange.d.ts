@@ -37,7 +37,7 @@ export declare type FormatMonitorOptions = {
   /** A custom `window` object/scope to monitor. */
   win?: Window;
   /** Set to `true` to disable `window.onresize` evend binding and run `.check()` manually */
-  manual: false;
+  manual?: false;
 };
 
 // ===========================================================================
