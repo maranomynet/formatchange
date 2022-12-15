@@ -9,6 +9,7 @@
 _2022-12-15_
 
 - feat: Allow passing callback/getter function to `makeFormatMonitorHook`
+- fix(ts): Flag `FormatMonitorOptions.manual` as optional
 - fix: Prevent error messages in `jsdom` environments
 
 ## 2.0.0 – 2.0.2
