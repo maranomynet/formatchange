@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 2.2.0
+
+_2023-05-24_
+
 - feat: Add `pkg.exports` to improve ESM `import` resolutions
 
 ## 2.1.0
