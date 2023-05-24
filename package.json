@@ -38,5 +38,13 @@
     "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   },
-  "sideEffects": ["./jquery.js"]
+  "sideEffects": [
+    "./jquery.js"
+  ],
+  "exports": {
+    ".": "./formatchange.js",
+    "./jquery": "./jquery.js",
+    "./react": "./react.js",
+    "./makeGroups": "./makeGroups.js"
+  }
 }

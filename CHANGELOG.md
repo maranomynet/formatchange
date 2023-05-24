@@ -3,6 +3,7 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- feat: Add `pkg.exports` to improve ESM `import` resolutions
 
 ## 2.1.0
 
