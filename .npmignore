@@ -3,4 +3,5 @@
 /demo-jquery.html
 /yarn-error.log
 /yarn.lock
-/build.js
+/test.*
+/tsconfig.*
