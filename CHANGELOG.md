@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. Version number will be decided later -->
 - feat: `useFormatMonitor` hooks now return the `media` info object
+- feat: If the monitored element has no generated content, then retry a few times
 
 ## 2.2.0
 

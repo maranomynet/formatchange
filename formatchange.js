@@ -70,6 +70,9 @@ FormatChange.prototype = {
   defer: false,
   win: typeof window !== 'undefined' ? window : undefined,
   formatGroups: {},
+  
+  oldFormat: null,
+  _failures: true,
 
   isRunning: function () {
     return this._on;
@@ -191,7 +194,12 @@ FormatChange.prototype = {
     }
     var media = this.media;
     var oldFormat = this.oldFormat;
-    var newFormat = this.win.getComputedStyle(this.elm, '::after').content || '';
+    var newFormat = this.win.getComputedStyle(this.elm, '::after').content;
+    if (newFormat === 'none' && this._failures < 10) {
+      this._failures++;
+      setTimeout(() => this.check(), 67);
+      return;
+    }
     newFormat = newFormat.replace(/['"]/g, '');
 
     var changeOccurred = newFormat !== oldFormat;
