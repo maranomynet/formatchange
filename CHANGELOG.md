@@ -3,8 +3,13 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
-- feat: `useFormatMonitor` hooks now return the `media` info object
+
+## 2.3.0
+
+_2023-10-06_
+
 - feat: If the monitored element has no generated content, then retry a few times
+- feat: Make `useFormatMonitor` hooks return the `media` info object
 - fix: Actually remove legacy media properties `.format`, `.lastFormat`
 
 ## 2.2.0
