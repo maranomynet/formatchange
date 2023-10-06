@@ -139,7 +139,7 @@ FormatChange.prototype = {
     if (this._on && !this.check()) {
       // in case Group data has changed or something
       // even though check() returned false - indicating no format change.
-      this._updateFlags();
+      this._updateGroupFlags();
     }
     return this._on;
   },
@@ -172,7 +172,7 @@ FormatChange.prototype = {
   _on: false,
 
   // update the static group-related flags.
-  _updateFlags: function () {
+  _updateGroupFlags: function () {
     var self = this;
     var media = self.media;
     var formatGroups = self.formatGroups;
@@ -207,7 +207,7 @@ FormatChange.prototype = {
       media.is = media.format = newFormat;
       media.was = media.lastFormat = oldFormat;
       this.oldFormat = newFormat;
-      this._updateFlags();
+      this._updateGroupFlags();
       // issue Notification
       this._triggering = true;
       for (var i=0, callback; (callback = this._callbacks[i]); i++) {
