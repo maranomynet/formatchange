@@ -27,10 +27,11 @@ _2022-12-14_
 - **BREAKING** feat: Remove support for ancient browsers
 - **BREAKING** feat: Stop reading media name from `font-family`, use `::after` only
 - **BREAKING** feat: Use named export for `FormatChange` class
-- **BREAKING** feat: Always export `FormatChange`, throw at runtime on missing `window`
+- **BREAKING** feat: Always export `FormatChange`, perform no-op on missing `window`
 - **BREAKING** feat: Split `FormatChange.jQueryPlugin` factory into standalone module `formatchange/jquery`
 - **BREAKING** feat: Split `FormatChange.makeGroups` into standalone module `formatchange/makeGroups`
-- **BREAKING** feat: `makeGroups`'s `group` values are now arrays of group names
+- **BREAKING** feat: `makeGroups`'s `group` values arrays of group names
+- **BREAKING** feat: Remove `media.format` and `media.lastFormat`
 - feat: Modernize and remove side-effects to improve tree-shaking
 
 ## 1.8.1
