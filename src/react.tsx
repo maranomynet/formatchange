@@ -69,4 +69,5 @@ export const makeFormatMonitorHook =
         };
       }
     }, [hasCallback]);
+    return fmtMonitor.media;
   };

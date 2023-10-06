@@ -274,6 +274,9 @@ export const MyComponent = (props) => {
 };
 ```
 
+The generated hook returns `FormatChange` instance's `media` object, in case you want to use it directly.
+(NOTE: The object may or may not be initialized yet.)
+
 You can also pass a getter callback which returns the `FormatChange` instance.
 This may be the preferred signature for JS libraries that want to provide side-effect free `imort`s.
 
