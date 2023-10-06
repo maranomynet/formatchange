@@ -204,8 +204,8 @@ FormatChange.prototype = {
 
     var changeOccurred = newFormat !== oldFormat;
     if (changeOccurred) {
-      media.is = media.format = newFormat;
-      media.was = media.lastFormat = oldFormat;
+      media.is = newFormat;
+      media.was = oldFormat;
       this.oldFormat = newFormat;
       this._updateGroupFlags();
       // issue Notification
