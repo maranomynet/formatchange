@@ -136,9 +136,13 @@ FormatChange.prototype = {
     if (hardRefresh) {
       this.oldFormat = null;
     }
-    if (this._on && !this.check()) {
+    if (!this._on) {
+      return false;
+    }
+    const changeOccurred = this.check();
+    if (changeOccurred === false) {
+      // Update group flags, even though check() returned false (indicating no change)
       // in case Group data has changed or something
-      // even though check() returned false - indicating no format change.
       this._updateGroupFlags();
     }
     return this._on;
