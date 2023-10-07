@@ -1,6 +1,6 @@
 {
   "name": "formatchange",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Utility that monitors named CSS media-query breakpoints and triggers event callbacks when a media-format change occurs.",
   "main": "formatchange.js",
   "types": "index.d.ts",
