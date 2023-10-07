@@ -8,6 +8,8 @@ export type GroupConfig<Group extends string> = Record<
 /**
  * Esoteric helper that maps a complex `GroupConfig` config object
  * into a `FormatMonitorGroupConfig`
+ * 
+ * @see https://github.com/maranomynet/formatchange/tree/v2#makegroups-helper
  */
 export const makeGroups = <Group extends string>(
   groupConfig: GroupConfig<Group>

@@ -3,6 +3,7 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- docs: Add JSDoc comments with links to the v2-branch's README file
 
 ## 2.3.0
 

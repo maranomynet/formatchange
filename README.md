@@ -18,7 +18,7 @@ it detects that a new (named) CSS @media query breakpoint has become active.
   - [5: Start, stop, refresh!](#5-start-stop-refresh)
 - [Helpers](#helpers)
   - [React `makeFormatMonitorHook`](#react-makeformatmonitorhook)
-  - [`makeGroups(normalizedCfg)` Helper](#makegroupsnormalizedcfg-helper)
+  - [`makeGroups` Helper](#makegroups-helper)
   - [jQuery Plugin](#jquery-plugin)
   - [React `withMediaProps` HOC](#react-withmediaprops-hoc)
 
@@ -291,9 +291,9 @@ export const useFormatMonitor = makeFormatMonitorHook(() => {
 });
 ```
 
-### `makeGroups(normalizedCfg)` Helper
+### `makeGroups` Helper
 
-This opinionated helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.
+This opinionated/esoteric helper takes a normalized config object and creates a `formatGroup` object that fits into the FormatChange constructor.
 
 This can be useful when your media-format config is stored in a .json file that is then read and interpreted by multiple sources.
 
@@ -311,7 +311,7 @@ const mediaFormats = {
   phone_tablet: { maxW: 900 },
 };
 const groupConfig = makeGroups(mediaFormats);
-console.log(groupConfig)
+console.log(groupConfig);
 /*
   {
     Small: { phone: true },
@@ -438,4 +438,3 @@ class Baz extends React.Component {
 }
 const MonitoredBaz = withMediaProps(Baz, myMonitor);
 ```
-
