@@ -3,6 +3,9 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+- **BREAKING** feat: Remove `withMediaProps` HOC from `formatchange/react`
+- **BREAKING** feat: Remove module `formatchange/jquery`
+- **BREAKING** feat: Remove module `formatchange/makeGroups`
 
 ## 2.3.1
 
