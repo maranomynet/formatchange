@@ -6,6 +6,7 @@
 - **BREAKING** feat: Remove `withMediaProps` HOC from `formatchange/react`
 - **BREAKING** feat: Remove module `formatchange/jquery`
 - **BREAKING** feat: Remove module `formatchange/makeGroups`
+- fix: Perform lazy `useFormatMonitor`s initialization once only
 
 ## 2.3.1
 

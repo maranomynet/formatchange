@@ -16,8 +16,8 @@ it detects that a new (named) CSS @media query breakpoint has become active.
   - [3: Getting the current media format](#3-getting-the-current-media-format)
   - [4: Subscribe to formatchange events.](#4-subscribe-to-formatchange-events)
   - [5: Start, stop, refresh!](#5-start-stop-refresh)
-- [Helpers](#helpers)
-  - [React `makeFormatMonitorHook`](#react-makeformatmonitorhook)
+- [React Helpers](#react-helpers)
+  - [`makeFormatMonitorHook`](#makeformatmonitorhook)
 
 <!-- prettier-ignore-end -->
 
@@ -244,11 +244,9 @@ Starting and stopping does not delete or reset the `media` object. This means th
 
 `formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
 
-## Helpers
+## React Helpers
 
-FormatChange comes with a few helpers.
-
-### React `makeFormatMonitorHook`
+### `makeFormatMonitorHook`
 
 A factory function that generates a react hook that is bound to a specific `FormatChange` monitor instance.
 
