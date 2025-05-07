@@ -1,8 +1,3 @@
 .DS_Store
 node_modules
 /yarn-error.log
-
-/react.js
-/react.d.ts
-/makeGroups.js
-/makeGroups.d.ts

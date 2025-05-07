@@ -47,9 +47,9 @@
 </head>
 <body>
 
-  <h1>FormatChange() demo</h1>
+ <h1><code>makeFormatMonitor()</code> demo</h1>
   <p>Format is: <b>undefined</b> (was: <span>undefined</span>)</p>
-  <p><tt></tt></p>
+  <p>Group flags: <i style="font-style: normal;"></i></p>
 
 
   <script src="./formatchange.js"></script>
@@ -59,7 +59,7 @@
               Small: { phone:1, phablet:1 },
               Large: { tablet:1, netbook:1, widescreen:1 }
             };
-      var formatMonitor = new FormatChange( formatGroups );
+      var formatMonitor = makeFormatMonitor( formatGroups );
 
       var $ = function (tagName) { return document.getElementsByTagName( tagName )[0]; };
       var tOut;
@@ -81,18 +81,6 @@
           clearTimeout( tOut );
           tOut = setTimeout(function(){ $('tt').style.backgroundColor = ''; }, 500);
         });
-
-      formatMonitor.formatGroups.Funky = { phone:1, tablet:1, widescreen:1 };
-      formatMonitor.refresh();  // soft refresh to fully register the Funky group
-
-      formatMonitor.subscribe(function (media) {
-          $('tt').innerHTML +=
-              '<b>'+
-                (formatMonitor.media.becameFunky ? 'became Funky - ' : '')+
-                (formatMonitor.media.leftFunky ?   'left Funky - '   : '')+
-              '</b>';
-        });
-
 
       window.media = formatMonitor.media;
 

@@ -3,10 +3,19 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
-- **BREAKING** feat: Remove `withMediaProps` HOC from `formatchange/react`
+- `formatchange`:
+  - **BREAKING** feat: Remove `FormatChange` class
+  - feat: Add `makeFormatMonitor(groups, options)` factory function
+- `formatchange/react`:
+  - **BREAKING** feat: Remove `withMediaProps` HOC
+  - **BREAKING** feat: Remove `makeFormatMonitorHook` factory
+  - feat: Add `makeFormatMonitorHooks()` factory that produces two named hooks:
+    `useFormatMonitor(callback)` and `useMedia()`
+  - feat: Add hook `useFormatMonitor.media()` that returns a `media` object
+    clone
+  - fix: Perform lazy `useFormatMonitor`s initialization once only
 - **BREAKING** feat: Remove module `formatchange/jquery`
 - **BREAKING** feat: Remove module `formatchange/makeGroups`
-- fix: Perform lazy `useFormatMonitor`s initialization once only
 
 ## 2.3.1
 
@@ -53,7 +62,7 @@ _2022-12-14_
 ## 1.8.1
 
 _2022-03-01_
-
+ 
 - fix: Publish `react` module as ES5, for backwards compatibility
 
 ## 1.8.0

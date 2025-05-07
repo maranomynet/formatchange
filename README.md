@@ -1,4 +1,4 @@
-# FormatChange
+# FormatChange <!-- omit from toc -->
 
 **... Smart window resize events for sites with responsive UI.**
 
@@ -17,7 +17,7 @@ it detects that a new (named) CSS @media query breakpoint has become active.
   - [4: Subscribe to formatchange events.](#4-subscribe-to-formatchange-events)
   - [5: Start, stop, refresh!](#5-start-stop-refresh)
 - [React Helpers](#react-helpers)
-  - [`makeFormatMonitorHook`](#makeformatmonitorhook)
+  - [`makeFormatMonitorHooks`](#makeformatmonitorhooks)
 
 <!-- prettier-ignore-end -->
 
@@ -33,7 +33,7 @@ npm install formatchange
 
 ### 1: Name your CSS breakpoints
 
-FormatChange Monitors changes in a hidden Element's `::after { content: '' }` value, as defined in your page's CSS code.
+The FormatChange library allows you to monitor changes in a hidden Element's `::after { content: '' }` value, as defined in your page's CSS code.
 
 So, first off, give a single name to each @media query breakpoint (format) you want your script to respond to.
 
@@ -67,12 +67,12 @@ So, first off, give a single name to each @media query breakpoint (format) you w
 
 ### 2: Configure and initialize FormatChange
 
-FormatChange is a constructor, but is very understanding about being called as a normal function.
+`makeFormatMonitor` is a factory function that creates a `FormatMonitor` instance
 
 ```js
-import { FormatChange } from "formatchange";
+import { makeFormatMonitor } from "formatchange";
 
-var formatMonitor = new FormatChange();
+var formatMonitor = makeFormatMonitor();
 ```
 
 The constructor accepts two optional Object arguments: `formatGroups` and `options`.
@@ -114,14 +114,12 @@ var options = {
 Then this:
 
 ```js
-var formatMonitor = new FormatChange(formatGroups, options);
+var formatMonitor = makeFormatMonitor(formatGroups, options);
 ```
-
-**NOTE:** All option and formatGroups defaults can be changed via `FormatChange.prototype.*`
 
 ### 3: Getting the current media format
 
-As soon as FormatChange starts monitoring the viewport (on instantiation by default, or on `.start()` if the `defer` option is used) it writes information about the current media format into `formatMonitor.media`.
+As soon as a `FormatMonitor` starts monitoring the viewport (on instantiation by default, or on `.start()` if the `defer` option is used) it writes information about the current media format into `formatMonitor.media`.
 
 ```js
 var media = formatMonitor.media;
@@ -184,25 +182,9 @@ media.becameLarge === false,
 media.leftLarge   === false,
 ```
 
-If we now decide to add a new format group "Funky", the appropriate boolean flags for that group `.(is|was|became|left)Funky` are created (either next time a format change is detected or once `.refresh()` has been called), like so:
-
-```js
-formatMonitor.formatGroups.Funky = { phone: 1, tablet: 1, widescreen: 1 };
-
-formatMonitor.refresh();
-// formatMonitor.refresh(true); // to force-trigger a "formatchange" event.
-
-alert(media.is); // --> "phablet"
-alert(media.was); // --> "phone"
-alert(media.isFunky); // --> false
-alert(media.wasFunky); // --> true
-alert(media.becameFunky); // --> false
-alert(media.leftFunky); // --> true
-```
-
 ### 4: Subscribe to formatchange events.
 
-Whenever FormatChange detects a new `format` it runs any callbacks that have `.subscribe()`d to be notified, passing them a reference to the `formatMonitor.media` object.
+Whenever a `FormatMonitor` detects a new screen format it runs any callbacks that have `.subscribe()`d to be notified, passing them a reference to the `formatMonitor.media` object.
 
 ```js
 formatMonitor.subscribe(myEventCallback);
@@ -233,46 +215,55 @@ formatMonitor.unsubscribe(myEventCallback);
 `formatMonitor.isRunning()` tells you if the `window.onresize` monitoring is active or not. If your monitor is set to `manual`, it simply tells you if it has been started.
 
 Call `formatMonitor.stop()` any time to stop monitoring.
-This does NOT unbind any subscribed "formatchange" event callbacks – only stops the onResize CSS-polling and triggering of events
+This does NOT unbind any subscribed "format change" event callbacks – only stops the onResize CSS-polling and triggering of events
 
 `formatMonitor.start()` Binds the `window.onresize` event handler to poll the CSS and trigger event callbacks.
-This method is called internally when a `FormatChange` instance is created – unless the `defer` option is passed.
+This method is called internally when a `makeFormatMonitor` instance is created – unless the `defer` option is passed.
 
-Starting and stopping does not delete or reset the `media` object. This means that restarting (i.e. `.start()` after a `.stop()`) will not re-trigger a 'formatchange' event – unless the window size (or CSS) changed in the meantime – or if if a "hard-refresh" argument is passed (i.e. `.start(true)`).
+Starting and stopping does not delete or reset the `media` object. This means that restarting (i.e. `.start()` after a `.stop()`) will not re-trigger a "format change" event – unless the window size (or CSS) changed in the meantime – or if if a "hard-refresh" argument is passed (i.e. `.start(true)`).
 
-`formatMonitor.check()` quickly queries if the format has changed and triggers "formatchange" event if needed. This is the method to use with the `manual` option.
+`formatMonitor.check()` quickly queries if the format has changed and triggers "format change" event if needed. This is the method to use with the `manual` option.
 
-`formatMonitor.refresh()` refreshes the `media` object and triggers "formatchange" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
+`formatMonitor.refresh()` refreshes the `media` object and triggers "format change" event when appropriate – unless a "hard-refresh" boolean argument is passed (i.e. `.refresh(true)`).
 
 ## React Helpers
 
-### `makeFormatMonitorHook`
+### `makeFormatMonitorHooks`
 
-A factory function that generates a react hook that is bound to a specific `FormatChange` monitor instance.
+A factory function that generates helpful react hooks that are bound to a specific `FormatChange` monitor instance.
 
 ```js
-import { FormatChange } from "formatchange";
-import { makeFormatMonitorHook } from "formatchange/react";
+import { makeFormatMonitor } from "formatchange";
+import { makeFormatMonitorHooks } from "formatchange/react";
 
-var formatMonitor = new FormatChange(/* groups, options */);
-export const useFormatMonitor = makeFormatMonitorHook(formatMonitor);
+var formatMonitor = makeFormatMonitor(/* groups, options */);
+
+export const { useFormatMonitor, useMedia } = makeFormatMonitorHooks(formatMonitor);
 
 // elsewhere off in some React component file
 
 export const MyComponent = (props) => {
   const [isPhone, setPhoneFormat] = React.useState(false);
+  // ...format change event callback mode:
   useFormatMonitor((media) => {
     setPhoneFormat(media.is === "phone");
   });
+  // ...or direct value mode:
+  // (This hook triggers an internal re-renders when the `media` object changes)
+  const media = useMedia();
+  const newIsPhone = media.is === 'phone';
+  if (newIsPhone !== isPhone) {
+    setPhoneFormat(newIsPhone);
+  }
 
   return <div>Phone format: {String(isPhone)}</div>;
 };
 ```
 
-The generated hook returns `FormatChange` instance's `media` object, in case you want to use it directly.
+The generated hooks return `FormatMontitor` instance's `media` object, in case you want to use it directly.
 (NOTE: The object may or may not be initialized yet.)
 
-You can also pass a getter callback which returns the `FormatChange` instance.
+You can also pass a getter callback which returns the `FormatMonitor` instance.
 This may be the preferred signature for JS libraries that want to provide side-effect free `imort`s.
 
 ```js
@@ -280,7 +271,7 @@ let _formatMonitor;
 
 export const useFormatMonitor = makeFormatMonitorHook(() => {
   if (!_formatMonitor) {
-    _formatMonitor = new FormatChange(/* groups, options */);
+    _formatMonitor = makeFormatMonitor(/* groups, options */);
   }
   return _formatMonitor;
 });
